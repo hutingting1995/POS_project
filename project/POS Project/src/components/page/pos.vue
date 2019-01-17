@@ -40,7 +40,7 @@
                         <el-tab-pane label="汉堡">
                             <ul>
                                 <li v-for="good of goods_hanbao">
-                                    <img :src="require('../../../'+good.img_url+'.jpg')" />
+                                    <img :src="good.img_url" />
                                     <div>
                                         <span>{{good.pname}}</span><br>
                                         <span class="price">￥{{(good.price).toFixed(2)}}</span>
@@ -51,7 +51,7 @@
                         <el-tab-pane label="小食物">
                             <ul>
                                 <li v-for="good of goods_xiaoshi">
-                                    <img :src="require('../../../'+good.img_url+'.jpg')" />
+                                    <img :src="good.img_url" />
                                     <div>
                                         <span>{{good.pname}}</span><br>
                                         <span class="price">￥{{(good.price).toFixed(2)}}元</span>
@@ -62,7 +62,7 @@
                         <el-tab-pane label="饮料">
                             <ul>
                                 <li v-for="good of goods_yingliao">
-                                    <img :src="require('../../../'+good.img_url+'.jpg')" />
+                                    <img :src="good.img_url" />
                                     <div>
                                         <span>{{good.pname}}</span><br>
                                         <span class="price">￥{{(good.price).toFixed(2)}}元</span>
@@ -73,7 +73,7 @@
                         <el-tab-pane label="套餐">
                             <ul>
                                 <li v-for="good of goods_taocan">
-                                    <img :src="require('../../../'+good.img_url+'.jpg')" />
+                                    <img :src="good.img_url" />
                                     <div>
                                         <span>{{good.pname}}</span><br>
                                         <span class="price">￥{{(good.price).toFixed(2)}}元</span>
@@ -97,38 +97,11 @@ export default {
                      {pname:"蛋挞",count:1,price:10},
                      {pname:"可乐汉堡套餐",count:1,price:36}
                      ],
-            oftenList:[{id:1,pname:"香辣鸡腿堡",price:18},
-                       {id:2,pname:"横行蟹宝宝",price:36},
-                       {id:3,pname:"芒果大巴乐",price:20},
-                       {id:4,pname:"香脆鸡腿堡套餐",price:41},
-                       {id:5,pname:"烤鸡翅",price:21},
-                       {id:6,pname:"薯霸王",price:34},
-                       {id:7,pname:"王道嫩香鸡块",price:23},
-                       {id:8,pname:"厚蛋烤鸡堡",price:27}],
-            goods_hanbao:[{id:1,pname:"香辣鸡腿堡",img_url:"public/img/hanbao1",price:18},
-                       {id:2,pname:"横行蟹宝宝",img_url:"public/img/hanbao2",price:36},
-                       {id:3,pname:"田园脆鸡堡",img_url:"public/img/hanbao3",price:20},
-                       {id:4,pname:"澳洲牛肉堡",img_url:"public/img/hanbao4",price:41},
-                       {id:5,pname:"超级鸡腿堡",img_url:"public/img/hanbao5",price:21},
-                       {id:6,pname:"鳕鱼堡",img_url:"public/img/hanbao6",price:34}],
-           goods_yingliao:[{id:1,pname:"珍珠奶茶",img_url:"public/img/yinliao1",price:18},
-                       {id:2,pname:"香蕉酸奶",img_url:"public/img/yinliao2",price:36},
-                       {id:3,pname:"椰香红豆奶茶",img_url:"public/img/yinliao3",price:20},
-                       {id:4,pname:"血糯米奶茶",img_url:"public/img/yinliao4",price:41},
-                       {id:5,pname:"缤纷水果茶",img_url:"public/img/yinliao5",price:21},
-                       {id:6,pname:"夏日迷情",img_url:"public/img/yinliao6",price:34},
-                       {id:7,pname:"蜜桃乌龙茶",img_url:"public/img/yinliao7",price:21},
-                       {id:8,pname:"草莓番石榴汁",img_url:"public/img/yinliao8",price:34}],
-            goods_taocan:[{id:1,pname:"小姐姐套餐",img_url:"public/img/taocan1",price:38},
-                       {id:2,pname:"小哥哥套餐",img_url:"public/img/taocan2",price:18},
-                       {id:3,pname:"单身狗套餐",img_url:"public/img/taocan3",price:20},
-                       {id:4,pname:"双人套餐",img_url:"public/img/taocan4",price:41},
-                       {id:5,pname:"全家桶",img_url:"public/img/taocan5",price:210}],
-            goods_xiaoshi:[{id:1,pname:"劲爆鸡米花",img_url:"public/img/xiaoshi1",price:18},
-                       {id:2,pname:"薯霸王",img_url:"public/img/xiaoshi2",price:36},
-                       {id:3,pname:"咋鸡块",img_url:"public/img/xiaoshi3",price:20},
-                       {id:4,pname:"草莓派",img_url:"public/img/xiaoshi4",price:41},
-                       {id:5,pname:"蛋挞",img_url:"public/img/xiaoshi5",price:21}],
+            oftenList:[],
+            goods_hanbao:[],
+           goods_yingliao:[],
+            goods_taocan:[],
+            goods_xiaoshi:[],
         }
     },
     mounted(){
@@ -137,8 +110,19 @@ export default {
         document.getElementById("orderList").children[0].children[0].style.paddingLeft="20px";
     },
     created(){
-        console.log(this.goods_hanbao[0].img_url)
-    }
+        var url="http://127.0.0.1:3005/oftenList"
+        var url1="http://127.0.0.1:3005/goods"
+        this.axios.get(url).then(res=>{
+            this.oftenList=res.data
+        })
+        this.axios.get(url1).then(res=>{
+            this. goods_hanbao=res.data.goods_hanbao;
+            console.log(this.goods_hanbao[1].img_url)
+            this.goods_yingliao=res.data.goods_yingliao
+            this.goods_taocan=res.data.goods_taocan
+            this.goods_xiaoshi=res.data.goods_xiaoshi
+        })
+           }
     
 }
 </script>
